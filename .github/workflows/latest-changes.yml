@@ -1,0 +1,30 @@
+name: 🔥 Latest Changes 📝
+
+on:
+  pull_request_target:
+    branches:
+      - main
+    types:
+      - closed
+  # Manual triggering option
+  workflow_dispatch:
+    inputs:
+      number:
+        description: 'PR number'
+        required: true
+
+jobs:
+  latest-changes:
+    name: 📝 Generate Latest Changes
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 🔍 Checkout Repository
+        uses: actions/checkout@v4.2.2
+
+      - name: 🛠️ Generate Changelog
+        uses: tiangolo/latest-changes@0.3.1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          latest_changes_file: CHANGELOG.md
+          latest_changes_header: '# CHANGELOG'

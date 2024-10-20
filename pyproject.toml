@@ -1,0 +1,18 @@
+[tool.poetry]
+name = "microk8s-addons"
+version = "0.1.0"
+description = ""
+authors = ["Chris <goabonga@pm.me>"]
+readme = "README.md"
+package-mode = false
+
+[tool.poetry.dependencies]
+python = "^3.12"
+pytest = "^8.3.3"
+pyyaml = "^6.0.2"
+ruff = "^0.7.2"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

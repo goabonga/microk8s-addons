@@ -1,0 +1,3 @@
+microk8s-addons:
+  description: "My MicroK8s Addons Project repository is a collection of custom addons for MicroK8s, designed to enhance and extend your Kubernetes cluster with modular, reusable components."
+  addons: []

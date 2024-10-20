@@ -1,0 +1,50 @@
+name: 🧪 Run Tests 🚀
+
+on:
+  - push
+  - pull_request
+
+jobs:
+  run-tests:
+    name: 🧪 Run All Tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 🔍 Checkout Repository
+        uses: actions/checkout@v4.2.2
+
+      - name: ⚙️ Install Dependencies
+        run: |
+          sudo apt-get update
+          sudo snap install microk8s --classic --channel=latest/edge
+
+      - name: 🤖 Set Up Python Environment
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.12'
+
+      - name: 🚀 Install Poetry for Root User
+        run: |
+          curl -sSL https://install.python-poetry.org | sudo python -
+
+      - name: 🛋 Install Dependencies via Poetry
+        run: |
+          sudo /root/.local/bin/poetry env use /opt/hostedtoolcache/Python/3.12.7/x64/bin/python
+          sudo /root/.local/bin/poetry install
+
+      - name: 🧩 Install Addons for Tests
+        run: |
+          set -x
+          sudo microk8s status --wait-ready --timeout 600
+          sudo microk8s addons repo add testing .
+          sudo microk8s status
+
+      - name: 🧪 Run Addons Tests
+        run: |
+          set -x
+          sudo /root/.local/bin/poetry run pytest -s ./tests/test_addons.py
+
+      - name: 🔥 Destroy MicroK8s Cluster
+        run: |
+          set -x
+          sudo snap remove microk8s --purge

@@ -1,0 +1,32 @@
+name: 🔨 Lint Code 🤖
+
+on:
+  - push
+  - pull_request
+
+jobs:
+  code-formatting-check:
+    name: 🔢 Code Formatting Check
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 🔍 Checkout Repository
+        uses: actions/checkout@v4.2.2
+
+      - name: 🤖 Set Up Python Environment
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.12'
+
+      - name: 🚀 Install Poetry Package Manager
+        run: |
+          curl -sSL https://install.python-poetry.org | python3 -
+          echo "$HOME/.local/bin" >> $GITHUB_PATH
+
+      - name: 🛋 Install Dependencies via Poetry
+        run: |
+          poetry install
+
+      - name: 🌧️ Run Ruff Check
+        run: |
+          poetry run ruff check .
